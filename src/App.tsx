@@ -6,7 +6,15 @@ import Experience from "@/Experience";
 
 function App() {
   return (
-    <Canvas shadows camera={{ position: [0, 2, 10] }}>
+    <Canvas
+      shadows
+      camera={{
+        fov: 45,
+        near: 0.1,
+        far: 200,
+        position: [2.5, 4, 6],
+      }}
+    >
       <Experience />
       <Perf position="top-left" />
     </Canvas>
