@@ -2,11 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useRef, useState } from "react";
 import { Euler, Quaternion } from "three";
-import {
-  boxGeometry,
-  endFloorMaterial,
-  obstacleMaterial,
-} from "../materials/Material";
+import { boxGeometry, obstacleMaterial } from "@/materials/Material";
 
 type SpinnerBlockProps = {
   position: [x: number, y: number, z: number];
@@ -34,14 +30,6 @@ export default function SpinnerBlock({ position }: SpinnerBlockProps) {
 
   return (
     <group position={position}>
-      {/* Floor */}
-      <mesh
-        geometry={boxGeometry}
-        material={endFloorMaterial}
-        position={[0, -0.1, 0]}
-        scale={[4, 0.2, 4]}
-        receiveShadow
-      />
       {/* Spinner */}
       <RigidBody
         ref={spinnerRef}
