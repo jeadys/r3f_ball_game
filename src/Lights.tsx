@@ -1,10 +1,17 @@
 import { useRef } from "react";
 import { useHelper } from "@react-three/drei";
 import { DirectionalLight, DirectionalLightHelper } from "three";
+import { useFrame } from "@react-three/fiber";
 
 export default function Lights() {
   const directionalLightRef = useRef<DirectionalLight>(null!);
   useHelper(directionalLightRef, DirectionalLightHelper, 1, "red");
+
+  useFrame((state) => {
+    directionalLightRef.current.position.z = state.camera.position.z + 1 - 4;
+    directionalLightRef.current.target.position.z = state.camera.position.z - 4;
+    directionalLightRef.current.target.updateMatrixWorld();
+  });
 
   return (
     <>
