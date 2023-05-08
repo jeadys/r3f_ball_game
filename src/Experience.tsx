@@ -1,4 +1,3 @@
-import { OrbitControls } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
 import { useControls } from "leva";
 
@@ -13,7 +12,6 @@ export default function Experience() {
 
   return (
     <>
-      <OrbitControls makeDefault />
       <Physics debug={isDebug}>
         <Lights />
         <Level />
