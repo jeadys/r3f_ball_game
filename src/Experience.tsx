@@ -6,6 +6,7 @@ import Level from "@/Level";
 import Player from "@/Player";
 
 import { useGameStore } from "@/stores/useGame";
+import Effects from "@/components/Effects";
 
 export default function Experience() {
   const { isDebug } = useControls("Physics debug", {
@@ -17,11 +18,14 @@ export default function Experience() {
 
   return (
     <>
+      <Lights />
+
       <Physics debug={isDebug}>
-        <Lights />
         <Level trapCount={trapCount} trapSeed={trapSeed} />
         <Player />
       </Physics>
+
+      <Effects />
 
       <color args={["lightblue"]} attach="background" />
     </>
