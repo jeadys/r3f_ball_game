@@ -1,4 +1,5 @@
 import { boxGeometry, startFloorMaterial } from "@/materials/Material";
+import StartMessage from "@/components/StartMessage";
 
 type StartBlockProps = {
   position: [x: number, y: number, z: number];
@@ -12,6 +13,8 @@ type StartBlockProps = {
 export default function StartBlock({ position }: StartBlockProps) {
   return (
     <group position={position}>
+      <StartMessage />
+
       {/* Floor */}
       <mesh
         geometry={boxGeometry}

@@ -1,6 +1,7 @@
 import { boxGeometry, startFloorMaterial } from "@/materials/Material";
 import { useGLTF } from "@react-three/drei";
 import { RigidBody, CylinderCollider } from "@react-three/rapier";
+import EndMessage from "./EndMessage";
 
 type EndBlockProps = {
   position: [x: number, y: number, z: number];
@@ -20,6 +21,8 @@ export default function EndBlock({ position }: EndBlockProps) {
 
   return (
     <group position={position}>
+      <EndMessage />
+
       {/* Floor */}
       <mesh
         geometry={boxGeometry}
