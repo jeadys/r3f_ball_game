@@ -3,12 +3,18 @@ import { RapierRigidBody, RigidBody, useRapier } from "@react-three/rapier";
 import { useKeyboardControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import { Vector3 } from "three";
+import { useGameStore } from "./stores/useGame";
 
 export default function Player() {
   const [subscribeKeys, getKeys] = useKeyboardControls();
   const playerRef = useRef<RapierRigidBody>(null);
   const { rapier, world } = useRapier();
   const rapierWorld = world.raw();
+
+  const start = useGameStore((state) => state.start);
+  const end = useGameStore((state) => state.end);
+  const restart = useGameStore((state) => state.restart);
+  const trapCount = useGameStore((state) => state.trapCount);
 
   const [smoothedCameraPosition] = useState(() => new Vector3(10, 10, 10));
   const [smoothedCameraTarget] = useState(() => new Vector3());
@@ -33,10 +39,43 @@ export default function Player() {
         if (value) jump();
       }
     );
+
+    const unsubscribeAny = subscribeKeys(() => {
+      start();
+    });
+
     return () => {
       unsubscribeJump();
+      unsubscribeAny();
     };
   }, []);
+
+  /**
+   * In the reset function, we are going to call three functions on the body reference in order to reset the marble:
+   * setTranslation to put it back at the origin
+   * setLinvel to remove any translation force
+   * setAngvel to remove any angular force
+   */
+  const reset = () => {
+    if (!playerRef.current) return null;
+
+    playerRef.current.setTranslation({ x: 0, y: 1, z: 0 }, false);
+    playerRef.current.setLinvel({ x: 0, y: 0, z: 0 }, false);
+    playerRef.current.setAngvel({ x: 0, y: 0, z: 0 }, false);
+  };
+
+  useEffect(() => {
+    const unsubscribeReset = useGameStore.subscribe(
+      (state) => state.phase,
+      (value) => {
+        if (value === "ready") reset();
+      }
+    );
+
+    return () => {
+      unsubscribeReset();
+    };
+  });
 
   useFrame((state, delta) => {
     if (!playerRef.current) return null;
@@ -99,6 +138,17 @@ export default function Player() {
 
     state.camera.position.copy(smoothedCameraPosition);
     state.camera.lookAt(smoothedCameraTarget);
+  });
+
+  useFrame(() => {
+    if (!playerRef.current) return null;
+
+    /**
+     * Phases
+     */
+    const playerPosition = playerRef.current.translation();
+    if (playerPosition.z < -(trapCount * 4 + 2)) end();
+    if (playerPosition.y < -4) restart();
   });
 
   return (
