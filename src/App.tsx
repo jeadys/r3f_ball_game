@@ -4,6 +4,7 @@ import { Perf } from "r3f-perf";
 
 import "./App.css";
 import Experience from "@/Experience";
+import Interface from "@/Interface";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Experience />
         <Perf position="top-left" />
       </Canvas>
+      <Interface />
     </KeyboardControls>
   );
 }
