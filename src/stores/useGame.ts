@@ -5,6 +5,7 @@ export type PhaseType = "ready" | "playing" | "ended";
 
 type GameState = {
   trapCount: number;
+  trapSeed: number;
   phase: PhaseType;
   startTime: number;
   endTime: number;
@@ -17,7 +18,8 @@ type GameActions = {
 };
 
 const initialState: GameState = {
-  trapCount: 3,
+  trapCount: 10,
+  trapSeed: 0,
   phase: "ready",
   startTime: 0,
   endTime: 0,
@@ -40,7 +42,7 @@ export const useGameStore = create<GameState & GameActions>()(
     restart: () => {
       set((state) => {
         if (state.phase === "playing" || state.phase === "ended")
-          return { phase: "ready" };
+          return { phase: "ready", trapSeed: Math.random() };
         return {
           ...state,
         };

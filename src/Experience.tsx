@@ -13,12 +13,13 @@ export default function Experience() {
   });
 
   const trapCount = useGameStore((state) => state.trapCount);
+  const trapSeed = useGameStore((state) => state.trapSeed);
 
   return (
     <>
       <Physics debug={isDebug}>
         <Lights />
-        <Level trapCount={trapCount} />
+        <Level trapCount={trapCount} trapSeed={trapSeed} />
         <Player />
       </Physics>
 

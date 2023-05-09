@@ -7,7 +7,8 @@ import { useMemo } from "react";
 import BoundBlock from "./components/BoundBlock";
 
 export default function Level({
-  trapCount = 5,
+  trapCount = 10,
+  trapSeed = 0,
   types = [SpinnerBlock, AxeBlock, LimboBlock],
 }) {
   const blocks = useMemo(() => {
@@ -19,7 +20,7 @@ export default function Level({
     }
 
     return blocks;
-  }, [trapCount, types]);
+  }, [trapCount, trapSeed, types]);
 
   return (
     <>
